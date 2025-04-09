@@ -1,6 +1,6 @@
 // sign-in.ts:
-import pkg from 'pg'; // Импортировать весь пакет как объект
-const { Pool } = pkg; // Деструктурируем Pool из объекта
+
+import { Pool, QueryResult} from 'pg';
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "./firebase-config"; // Импортируйте auth из файла с конфигом
 import { NotAllowedEmailError } from './NotAllowedEmailError'
@@ -51,18 +51,33 @@ signInWithPopup(auth, provider)
 
 
 
-// const query =
-//     'SELECT EXISTS(' +
-//     '   SELECT 1 ' +
-//     '   FROM users ' +
-//     '   WHERE mail = $1' +
-//     ')';
-//
-// const query2 = 'insert into users (mail, password_hash) values (\'qwe\', \'asd\');';
-// try {
-//     await pool.query(query2);
-//     const result = await pool.query(query, ['qwe']);
-//     console.log(result.rows[0].exists); // Здесь result.rows доступен, так как мы ждем результат
-// } catch (error) {
-//     console.error('Error executing query', error);
-// }
+
+
+
+/*
+import pkg from 'pg'; // Импортировать весь пакет как объект
+const { Pool } = pkg; // Деструктурируем Pool из объекта
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'sem-2-project-db',
+    password: '3255',
+    port: 5432,
+});
+
+const query =
+    'SELECT EXISTS(' +
+    '   SELECT 1 ' +
+    '   FROM users ' +
+    '   WHERE mail = $1' +
+    ')';
+
+const query2 = 'insert into users (mail, password_hash) values (\'qwe\', \'asd\');';
+try {
+    await pool.query(query2);
+    const result = await pool.query(query, ['qwe']);
+    console.log(result.rows[0].exists); // Здесь result.rows доступен, так как мы ждем результат
+} catch (error) {
+    console.error('Error executing query', error);
+}
+*/
