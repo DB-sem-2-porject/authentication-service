@@ -1,0 +1,35 @@
+import {AuthService} from "./service";
+import {readFileSync} from 'fs';
+
+function main (): void {
+
+    let serviceConfigFileContent = readFileSync('./configs/service-config.json', 'utf8');
+    let dataBaseFileContent = readFileSync('./configs/database-config.json', 'utf8');
+    // let serviceConfigFileContent = readFileSync('C:\\All_Random\\git\\DB-project\\db-querry-service\\configs\\service-config.json', 'utf8');
+    // let dataBaseFileContent = readFileSync('C:\\All_Random\\git\\DB-project\\db-querry-service\\configs\\database-config.json', 'utf8');
+
+    let serviceConfig = JSON.parse(serviceConfigFileContent);
+    let dataBaseConfig = JSON.parse(dataBaseFileContent)
+    let service: AuthService = new AuthService({
+            port: serviceConfig.port,
+            host: serviceConfig.host,
+        },
+        {
+            host: dataBaseConfig.host,
+            port: dataBaseConfig.port,
+            database: dataBaseConfig.database,
+            user: dataBaseConfig.user,
+            password: dataBaseConfig.password,
+        });
+
+    service.start()
+        .catch(error => {
+            console.log("Service start failed with error: ", error);
+            return process.exit(1);
+        });
+
+
+}
+
+
+main()
