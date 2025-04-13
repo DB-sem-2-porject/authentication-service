@@ -1,5 +1,5 @@
-import {AuthService} from "./service";
-import {readFileSync} from 'fs';
+import {AuthService, NUMBER} from './service.ts';
+import {readFileSync} from 'node:fs';
 
 function main (): void {
 
@@ -22,11 +22,12 @@ function main (): void {
             password: dataBaseConfig.password,
         });
 
-    service.start()
-        .catch(error => {
-            console.log("Service start failed with error: ", error);
-            return process.exit(1);
-        });
+    service.start();
+
+    // console.log(NUMBER);
+    // console.log(serviceConfig);
+    // console.log(dataBaseConfig);
+
 
 
 }

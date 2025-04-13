@@ -1,8 +1,12 @@
-import * as Hapi from '@hapi/hapi';
-import {Pool, QueryResult} from "pg";
+
+import * as Hapi from "@hapi/hapi";
+import pg from 'pg';
+import { QueryResult } from "pg";
+const { Pool } = pg;
 
 
 
+// export const NUMBER:number = 5;
 export interface AuthServiceOptions {
     port: number;
     host?: string;
@@ -19,7 +23,7 @@ export class AuthService {
     private port: number;
     private host: string;
     private server: Hapi.Server;
-    private pool: Pool;
+    private pool: pg.Pool;
 
 
     constructor(serviceOptions: AuthServiceOptions, databaseOptions: DatabaseOptions) {
@@ -32,8 +36,8 @@ export class AuthService {
         });
 
         this.pool = new Pool({
-            host: serviceOptions.host || 'localhost',
-            port: serviceOptions.port,
+            host: databaseOptions.host || 'localhost',
+            port: databaseOptions.port,
             database: databaseOptions.database,
             user: databaseOptions.user,
             password: databaseOptions.password,
@@ -48,7 +52,8 @@ export class AuthService {
 
 
     private async queryHandler(request: Hapi.Request, responseToolkit: Hapi.ResponseToolkit) {
-        const { query } = request.query; // Получаем SQL-запрос из параметра "query" в строке GET запроса
+        const { query } = request.query;
+        // const token = request.headers.authorization;
         try {
             const result: QueryResult = await this.pool.query(query);
             return responseToolkit.response(result.rows).code(200); // Отправка данных в JSON
@@ -59,12 +64,13 @@ export class AuthService {
     }
 
 
-    public async start(): Promise<void> {
+    public start(): void {
 
         try {
-            await this.server.start();
+            this.server.start().then(r => {
+            });
             process.on('SIGINT', async () => {
-                console.log('Stopping server...');
+                console.log('\nStopping server...');
                 await this.server.stop();
                 process.exit(0);
             });
