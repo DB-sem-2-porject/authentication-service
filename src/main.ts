@@ -1,4 +1,4 @@
-import {AuthService, NUMBER} from './service.ts';
+import {AuthService} from './service.ts';
 import {readFileSync} from 'node:fs';
 
 function main (): void {
@@ -27,8 +27,6 @@ function main (): void {
     // console.log(NUMBER);
     // console.log(serviceConfig);
     // console.log(dataBaseConfig);
-
-
 
 }
 

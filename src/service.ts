@@ -6,7 +6,6 @@ const { Pool } = pg;
 
 
 
-// export const NUMBER:number = 5;
 export interface AuthServiceOptions {
     port: number;
     host?: string;
@@ -45,13 +44,13 @@ export class AuthService {
 
         this.server.route({
             method: 'GET',
-            path: '/query',
-            handler: this.queryHandler.bind(this)
+            path: '/auth',
+            handler: this.authentficationHandler.bind(this)
         });
     }
 
 
-    private async queryHandler(request: Hapi.Request, responseToolkit: Hapi.ResponseToolkit) {
+    private async authentficationHandler(request: Hapi.Request, responseToolkit: Hapi.ResponseToolkit) {
         const { query } = request.query;
         // const token = request.headers.authorization;
         try {
